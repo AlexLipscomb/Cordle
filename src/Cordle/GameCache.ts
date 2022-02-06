@@ -2,7 +2,6 @@ import NodeCache from 'node-cache';
 
 
 export interface CordleGameState {
-    userId: string;
     answer: string;
     numLetters: number;
     numGuesses: number;

@@ -12,12 +12,12 @@ module.exports = {
         .addIntegerOption((option) =>
             option
                 .setName('letters')
-                .setDescription('The number of letters in the word')
+                .setDescription('The number of letters in the word'),
         )
         .addIntegerOption((option) =>
             option
                 .setName('guesses')
-                .setDescription('The number of guesses available')
+                .setDescription('The number of guesses available'),
         ),
     async execute(interaction: CommandInteraction) {
         const userId: string = interaction.user.id;
@@ -56,7 +56,6 @@ module.exports = {
         }
 
         const gameState: CordleGameState = {
-            userId: userId,
             answer: randChoose(
                 WordList[numLetters.toString() as keyof typeof WordList],
             ),
