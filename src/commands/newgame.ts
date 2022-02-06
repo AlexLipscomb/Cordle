@@ -13,15 +13,11 @@ module.exports = {
             option
                 .setName('letters')
                 .setDescription('The number of letters in the word')
-                .setMinValue(2)
-                .setMaxValue(27),
         )
         .addIntegerOption((option) =>
             option
                 .setName('guesses')
                 .setDescription('The number of guesses available')
-                .setMinValue(1)
-                .setMaxValue(10),
         ),
     async execute(interaction: CommandInteraction) {
         const userId: string = interaction.user.id;
@@ -42,17 +38,17 @@ module.exports = {
         if (numLetters < 0 || numLetters > 27) {
             await interaction.reply(
                 {
-                    content: 'Letters must be between 0 and 27',
+                    content: 'The number of letters must be between 2 and 27.',
                     ephemeral: true,
                 },
             );
             return;
         }
 
-        if (numGuesses < 0 || numGuesses > 10) {
+        if (numGuesses < 1 || numGuesses > 10) {
             await interaction.reply(
                 {
-                    content: 'Guesses must be between 0 and 10',
+                    content: 'The number of guesses must be between 1 and 10.',
                     ephemeral: true,
                 },
             );
