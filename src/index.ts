@@ -31,7 +31,12 @@ client.on('interactionCreate', async (interaction: Interaction) => {
         await command.execute(interaction);
     } catch (error) {
         console.error(error);
-        await interaction.reply({content: 'Error executing command'});
+        await interaction.reply(
+            {
+                content: 'Error executing command',
+                ephemeral: true,
+            },
+        );
     }
 });
 
