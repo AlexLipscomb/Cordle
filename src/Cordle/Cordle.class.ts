@@ -86,11 +86,6 @@ export class Cordle {
                 guess.substring(0, this._answer!.length),
             );
 
-            if (this._gameState.totalGuesses >= this._numGuesses) {
-                resolve({state: -1, result: this._gameState} as CordleGame);
-            }
-
-
             if (guess === this._answer) {
                 resolve(
                     {
@@ -98,6 +93,10 @@ export class Cordle {
                         result: this._gameState,
                     },
                 );
+            }
+
+            if (this._gameState.totalGuesses >= this._numGuesses) {
+                resolve({state: -1, result: this._gameState} as CordleGame);
             }
 
 
@@ -112,7 +111,6 @@ export class Cordle {
                     if (wc.occurances < 0) {
                         matches[i] = 2;
                     } else if (
-                        wc.occurances >= 0 &&
                         this._wordMap.get(guess[i])?.positions.includes(i)
                     ) {
                         matches[i] = 0;
