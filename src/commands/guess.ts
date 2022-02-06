@@ -82,7 +82,7 @@ module.exports = {
                             // eslint-disable-next-line max-len
                             content: `${interaction.user.username} Won!\n\n` +
                                 `Word Was **${value.result.answer}**` +
-                                `\`\`\`${res}\`\`\``,
+                                `\`\`\`\n${res}\n\`\`\``,
                         },
                     );
                     GameCache.del(interaction.user.id);
@@ -93,7 +93,7 @@ module.exports = {
                             // eslint-disable-next-line max-len
                             content: `${interaction.user.username} Lost!\n\n` +
                                 `Word Was **${value.result.answer}**` +
-                                `\`\`\`${res}\`\`\``,
+                                `\`\`\`\n${res}\n\`\`\``,
                         },
                     );
                     GameCache.del(interaction.user.id);
@@ -101,7 +101,7 @@ module.exports = {
                 case 0:
                     interaction.reply(
                         {
-                            content: `\`\`\`${res}\`\`\``,
+                            content: `\`\`\`\n${res}\n\`\`\``,
                             ephemeral: true,
                         },
                     );
