@@ -55,7 +55,7 @@ export async function execute(interaction: CommandInteraction): Promise<void> {
     }
 
 
-    if (guess.length < numLetters) {
+    if (guess.length !== numLetters) {
         await interaction.reply(
             {
                 content: 'Incorrect number of characters',

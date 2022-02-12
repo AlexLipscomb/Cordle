@@ -64,8 +64,8 @@ export class Cordle {
                 reject(new Error('Cordle not initialized'));
             };
 
-            if (guess.length < this._gameState.answer!.length) {
-                reject(new Error('Guess length less than answer length'));
+            if (guess.length !== this._gameState.answer.length) {
+                reject(new Error('Guess length not equal to  answer length'));
             }
 
             if (!isASCII(guess)) {
