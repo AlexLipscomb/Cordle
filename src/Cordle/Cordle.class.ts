@@ -72,7 +72,7 @@ export class Cordle {
                 reject(new Error('Guess has non-letters'));
             }
 
-            this._gameState.totalGuesses++;
+            this._gameState.totalGuesses += 1;
             const matches: number[] = new Array(this._gameState.answer.length)
                 .fill(2);
 

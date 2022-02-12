@@ -203,6 +203,6 @@ function formatSquares(cordleGame: CordleGame, squares: string[]): string {
 function formatNumGuesses(cordleGame: CordleGame): string {
     return (
         `${cordleGame.result.totalGuesses}/` +
-        `${cordleGame.result.numGuesses + 1} Guesses`
+        `${cordleGame.result.numGuesses} Guesses`
     );
 }
