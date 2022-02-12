@@ -65,7 +65,7 @@ export async function execute(interaction: CommandInteraction): Promise<void> {
             WordList[numLetters.toString() as keyof typeof WordList],
         ),
         numLetters: numLetters,
-        numGuesses: numGuesses + 1,
+        numGuesses: numGuesses,
         totalGuesses: 0,
         guesses: [] as string[],
         matches: [] as number[][],
