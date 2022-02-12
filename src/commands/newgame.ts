@@ -60,8 +60,6 @@ export async function execute(interaction: CommandInteraction): Promise<void> {
         return;
     }
 
-    console.log(numGuesses);
-
     const gameState: CordleGameState = {
         answer: randChoose(
             WordList[numLetters.toString() as keyof typeof WordList],
