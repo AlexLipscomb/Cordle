@@ -7,7 +7,7 @@ interface WordChar {
     occurances: number;
 }
 
-interface CordleGame {
+export interface CordleGame {
     state: number,
     result: CordleGameState,
 }
@@ -16,10 +16,10 @@ interface CordleGame {
  * An instance of a Cordle game
  */
 export class Cordle {
-    protected readonly _squares = ['🟩', '🟨', '⬛'];
     private _wordMap: Map<string, WordChar> = new Map<string, WordChar>();
-    protected _totalGuesses: number = 0;
     private _isInitialized: boolean = false;
+    protected readonly _squares = ['🟩', '🟨', '⬛'];
+    protected _totalGuesses: number = 0;
     protected _gameState: CordleGameState;
 
 
@@ -37,18 +37,18 @@ export class Cordle {
     public initialize(): void {
         this._isInitialized = true;
 
-        for (let i = 0; i < this._gameState.answer!.length; i++) {
-            if (!this._wordMap.has(this._gameState.answer![i])) {
-                const positions = [i];
-                const wc: WordChar = {occurances: 1, positions: positions};
-                this._wordMap.set(this._gameState.answer![i], wc);
-            } else {
+        for (let i = 0; i < this._gameState.answer.length; i++) {
+            if (this._wordMap.has(this._gameState.answer[i])) {
                 const wc: WordChar = this._wordMap.get(
-                    this._gameState.answer![i],
+                    this._gameState.answer[i],
                 ) as WordChar;
                 wc.occurances++;
                 wc.positions.push(i);
-                this._wordMap.set(this._gameState.answer![i], wc);
+                this._wordMap.set(this._gameState.answer[i], wc);
+            } else {
+                const positions = [i];
+                const wc: WordChar = {occurances: 1, positions: positions};
+                this._wordMap.set(this._gameState.answer[i], wc);
             }
         }
     }
@@ -73,12 +73,12 @@ export class Cordle {
             }
 
             this._gameState.totalGuesses++;
-            const matches: number[] = new Array(this._gameState.answer!.length)
+            const matches: number[] = new Array(this._gameState.answer.length)
                 .fill(2);
 
             this._gameState.matches.push(matches);
             this._gameState.guesses.push(
-                guess.substring(0, this._gameState.answer!.length),
+                guess.substring(0, this._gameState.answer.length),
             );
 
             if (guess === this._gameState.answer) {
@@ -99,7 +99,7 @@ export class Cordle {
                 if (this._wordMap.has(guess[i])) {
                     const wc: WordChar = this._wordMap
                         .get(guess[i]) as WordChar;
-                    wc.occurances--;
+                    wc.occurances -= 1;
                     this._wordMap.set(guess[i], wc);
 
                     // Set the right match types for the current letter
@@ -126,10 +126,10 @@ export class Cordle {
     /**
      * Build the squares used in the game
      * @param {number[]} matches
-     * @return {string[]}
+     * @return {string[] | null} Returns an array of squares or null
      */
-    public buildSquares(matches: number[]) {
-        if (!this._isInitialized) return;
+    public buildSquares(matches: number[]): string[] | null {
+        if (!this._isInitialized) return null;
 
         return new Array(this._gameState.answer!.length).fill('')
             .map((value, index) => {
