@@ -10,6 +10,7 @@ client.once('ready', () => {
     console.log('Cordle ready');
 });
 
+// Read and load all command files into the client
 client.commands = new Collection();
 
 const commandFiles = fs.readdirSync(`${__dirname}/commands`)
@@ -20,6 +21,7 @@ for (const file of commandFiles) {
     client.commands.set(command.data.name, command);
 }
 
+// Handle commands
 client.on('interactionCreate', async (interaction: Interaction) => {
     if (!interaction.isCommand()) return;
 
