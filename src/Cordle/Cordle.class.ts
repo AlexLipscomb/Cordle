@@ -17,10 +17,7 @@ interface CordleGame {
  */
 export class Cordle {
     protected readonly _squares = ['🟩', '🟨', '⬛'];
-    protected _numChars: string = '5';
-    protected _numGuesses: number = 6;
     private _wordMap: Map<string, WordChar> = new Map<string, WordChar>();
-    public _answer: string | null = null;
     protected _totalGuesses: number = 0;
     private _isInitialized: boolean = false;
     protected _gameState: CordleGameState;
@@ -38,22 +35,20 @@ export class Cordle {
      * Initialize the game
      */
     public initialize(): void {
-        this._answer = this._gameState.answer;
-        this._totalGuesses = this._gameState.totalGuesses;
         this._isInitialized = true;
 
-        for (let i = 0; i < this._answer!.length; i++) {
-            if (!this._wordMap.has(this._answer![i])) {
+        for (let i = 0; i < this._gameState.answer!.length; i++) {
+            if (!this._wordMap.has(this._gameState.answer![i])) {
                 const positions = [i];
                 const wc: WordChar = {occurances: 1, positions: positions};
-                this._wordMap.set(this._answer![i], wc);
+                this._wordMap.set(this._gameState.answer![i], wc);
             } else {
                 const wc: WordChar = this._wordMap.get(
-                    this._answer![i],
+                    this._gameState.answer![i],
                 ) as WordChar;
                 wc.occurances++;
                 wc.positions.push(i);
-                this._wordMap.set(this._answer![i], wc);
+                this._wordMap.set(this._gameState.answer![i], wc);
             }
         }
     }
@@ -65,11 +60,11 @@ export class Cordle {
      */
     public makeGuess(guess: string): Promise<CordleGame> {
         return new Promise<CordleGame>((resolve, reject) => {
-            if (!this._isInitialized || !this._answer) {
+            if (!this._isInitialized || !this._gameState.answer) {
                 reject(new Error('Cordle not initialized'));
             };
 
-            if (guess.length < this._answer!.length) {
+            if (guess.length < this._gameState.answer!.length) {
                 reject(new Error('Guess length less than answer length'));
             }
 
@@ -78,15 +73,15 @@ export class Cordle {
             }
 
             this._gameState.totalGuesses++;
-            const matches: Array<number> = new Array(this._answer!.length)
+            const matches: number[] = new Array(this._gameState.answer!.length)
                 .fill(2);
 
             this._gameState.matches.push(matches);
             this._gameState.guesses.push(
-                guess.substring(0, this._answer!.length),
+                guess.substring(0, this._gameState.answer!.length),
             );
 
-            if (guess === this._answer) {
+            if (guess === this._gameState.answer) {
                 resolve(
                     {
                         state: 1,
@@ -95,7 +90,7 @@ export class Cordle {
                 );
             }
 
-            if (this._gameState.totalGuesses >= this._numGuesses) {
+            if (this._gameState.totalGuesses >= this._gameState.numGuesses) {
                 resolve({state: -1, result: this._gameState} as CordleGame);
             }
 
@@ -136,7 +131,7 @@ export class Cordle {
     public buildSquares(matches: number[]) {
         if (!this._isInitialized) return;
 
-        return new Array(this._answer!.length).fill('')
+        return new Array(this._gameState.answer!.length).fill('')
             .map((value, index) => {
                 return this._squares[matches[index]];
             });
