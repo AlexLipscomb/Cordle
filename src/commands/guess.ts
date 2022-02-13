@@ -38,8 +38,6 @@ export async function execute(interaction: CommandInteraction): Promise<void> {
 
     const guess: string = interaction.options.getString('guess') as string;
 
-    const numLetters: number = userGameState.numLetters;
-
     const cordle: Cordle = new Cordle(userGameState);
     cordle.initialize();
 
@@ -55,7 +53,7 @@ export async function execute(interaction: CommandInteraction): Promise<void> {
     }
 
 
-    if (guess.length !== numLetters) {
+    if (guess.length !== userGameState.numLetters) {
         await interaction.reply(
             {
                 content: 'Incorrect number of characters',
