@@ -6,8 +6,8 @@ export interface CordleGameState {
     numLetters: number;
     numGuesses: number;
     totalGuesses: number;
-    guesses: Array<string>;
-    matches: Array<Array<number>>;
+    guesses: string[];
+    matches: number[][];
 }
 
 const GameCache = new NodeCache();

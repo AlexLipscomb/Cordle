@@ -1,9 +1,9 @@
 /**
  * Select a random element from an array
- * @param {Array<any>} arr The array to randomly select from
+ * @param {any[]} arr The array to randomly select from
  * @return {any} The randomly selected element
  */
-export function randChoose(arr: Array<any>): any {
+export function randChoose(arr: any[]): any {
     return arr[Math.floor(Math.random() * arr.length)];
 }
 

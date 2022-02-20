@@ -4,7 +4,7 @@ import {isASCII} from '../utils';
 
 interface WordChar {
     positions: number[];
-    occurances: number;
+    occurrences: number;
 }
 
 export interface CordleGame {
@@ -18,7 +18,7 @@ export interface CordleGame {
 export class Cordle {
     private _wordMap: Map<string, WordChar> = new Map<string, WordChar>();
     private _isInitialized: boolean = false;
-    protected readonly _squares = ['🟩', '🟨', '⬛'];
+    protected readonly _squares: string[] = ['🟩', '🟨', '⬛'];
     protected _totalGuesses: number = 0;
     protected _gameState: CordleGameState;
 
@@ -35,22 +35,23 @@ export class Cordle {
      * Initialize the game
      */
     public initialize(): void {
-        this._isInitialized = true;
-
         for (let i = 0; i < this._gameState.answer.length; i++) {
             if (this._wordMap.has(this._gameState.answer[i])) {
                 const wc: WordChar = this._wordMap.get(
                     this._gameState.answer[i],
                 ) as WordChar;
-                wc.occurances++;
+
+                wc.occurrences += 1;
                 wc.positions.push(i);
                 this._wordMap.set(this._gameState.answer[i], wc);
             } else {
                 const positions = [i];
-                const wc: WordChar = {occurances: 1, positions: positions};
+                const wc: WordChar = {occurrences: 1, positions: positions};
                 this._wordMap.set(this._gameState.answer[i], wc);
             }
         }
+
+        this._isInitialized = true;
     }
 
     /**
@@ -99,11 +100,11 @@ export class Cordle {
                 if (this._wordMap.has(guess[i])) {
                     const wc: WordChar = this._wordMap
                         .get(guess[i]) as WordChar;
-                    wc.occurances -= 1;
+                    wc.occurrences -= 1;
                     this._wordMap.set(guess[i], wc);
 
                     // Set the right match types for the current letter
-                    if (wc.occurances < 0) {
+                    if (wc.occurrences < 0) {
                         matches[i] = 2;
                     } else if (
                         this._wordMap.get(guess[i])?.positions.includes(i)
